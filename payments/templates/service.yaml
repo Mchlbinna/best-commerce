@@ -1,15 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "payments.fullname" . }}
-  labels:
-    {{- include "payments.labels" . | nindent 4 }}
+  name: {{ .Values.service.name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.chart.service.type }}
+  selector:
+    app: {{ .Chart.Name }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "payments.selectorLabels" . | nindent 4 }}
+      targetPort: {{ .Values.service.targetPort }}
